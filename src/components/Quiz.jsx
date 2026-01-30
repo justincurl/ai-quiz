@@ -6,11 +6,17 @@ import Question from "./Question";
 import ProgressBar from "./ProgressBar";
 import Results from "./Results";
 import IntroPage from "./IntroPage";
+import IdentityQuestion from "./IdentityQuestion";
 
 export default function Quiz() {
   const [started, setStarted] = useState(false);
+  const [isHuman, setIsHuman] = useState(null);
   const [state, setState] = useState(initializeQuiz);
   const resultLogged = useRef(false);
+
+  const handleIdentityAnswer = useCallback((human) => {
+    setIsHuman(human);
+  }, []);
 
   const handleAnswer = useCallback((score) => {
     setState((prev) => {
@@ -18,13 +24,13 @@ export default function Quiz() {
       const currentQ = next.questionSequence[next.currentQuestionIndex];
 
       // Fire-and-forget analytics
-      logResponse(currentQ.id, score);
+      logResponse(currentQ.id, score, isHuman);
 
       recordResponse(next, currentQ.id, score);
       processQuestionComplete(next);
       return next;
     });
-  }, []);
+  }, [isHuman]);
 
   useEffect(() => {
     if (state.isComplete && !resultLogged.current) {
@@ -35,17 +41,22 @@ export default function Quiz() {
         novelty: Math.round(state.axes.novelty.normalizedScore),
         outcome: Math.round(state.axes.outcome.normalizedScore),
         control: Math.round(state.axes.control.normalizedScore),
-      });
+      }, isHuman);
     }
-  }, [state.isComplete, state.axes]);
+  }, [state.isComplete, state.axes, isHuman]);
 
   const handleRestart = useCallback(() => {
     resultLogged.current = false;
+    setIsHuman(null);
     setState(initializeQuiz());
   }, []);
 
   if (!started) {
     return <IntroPage onStart={() => setStarted(true)} />;
+  }
+
+  if (isHuman === null) {
+    return <IdentityQuestion onAnswer={handleIdentityAnswer} />;
   }
 
   if (state.isComplete) {

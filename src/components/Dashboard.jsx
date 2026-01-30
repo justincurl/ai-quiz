@@ -53,6 +53,9 @@ export default function Dashboard() {
 
   // --- Overall stats ---
   const totalCompletions = results.length;
+  const humanResults = results.filter((r) => r.is_human === true);
+  const aiResults = results.filter((r) => r.is_human === false);
+  const unlabeledResults = results.filter((r) => r.is_human == null);
   const typeCounts = {};
   for (const r of results) {
     typeCounts[r.type_code] = (typeCounts[r.type_code] || 0) + 1;
@@ -83,6 +86,10 @@ export default function Dashboard() {
       <section className="dash-section">
         <h2 className="dash-heading">Overall Stats</h2>
         <p className="dash-meta">{totalCompletions} quiz completions</p>
+        <p className="dash-meta">
+          {humanResults.length} human · {aiResults.length} AI
+          {unlabeledResults.length > 0 && ` · ${unlabeledResults.length} unlabeled`}
+        </p>
 
         <h3 className="dash-subheading">Type Distribution</h3>
         <div className="dash-bars">
