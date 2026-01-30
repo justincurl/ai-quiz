@@ -2,7 +2,7 @@ import Quiz from "./components/Quiz";
 import Dashboard from "./components/Dashboard";
 import "./styles/quiz.css";
 
-const isDashboard = window.location.pathname.replace(/\/+$/, "").endsWith("/dashboard");
+const isDashboard = window.location.pathname.replace(/\/+$/, "").endsWith("/stats");
 
 export default function App() {
   return (
