@@ -1,0 +1,61 @@
+import { useState, useCallback, useRef, useEffect } from "react";
+import { initializeQuiz, recordResponse, processQuestionComplete } from "../logic/quizState";
+import { generateTypeCode } from "../logic/scoring";
+import { logResponse, logResult } from "../firebase";
+import Question from "./Question";
+import ProgressBar from "./ProgressBar";
+import Results from "./Results";
+
+export default function Quiz() {
+  const [state, setState] = useState(initializeQuiz);
+  const resultLogged = useRef(false);
+
+  const handleAnswer = useCallback((score) => {
+    setState((prev) => {
+      const next = JSON.parse(JSON.stringify(prev));
+      const currentQ = next.questionSequence[next.currentQuestionIndex];
+
+      // Fire-and-forget analytics
+      logResponse(currentQ.id, score);
+
+      recordResponse(next, currentQ.id, score);
+      processQuestionComplete(next);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (state.isComplete && !resultLogged.current) {
+      resultLogged.current = true;
+      const typeCode = generateTypeCode(state.axes);
+      logResult(typeCode, {
+        timeline: Math.round(state.axes.timeline.normalizedScore),
+        novelty: Math.round(state.axes.novelty.normalizedScore),
+        outcome: Math.round(state.axes.outcome.normalizedScore),
+        control: Math.round(state.axes.control.normalizedScore),
+      });
+    }
+  }, [state.isComplete, state.axes]);
+
+  const handleRestart = useCallback(() => {
+    resultLogged.current = false;
+    setState(initializeQuiz());
+  }, []);
+
+  if (state.isComplete) {
+    return <Results state={state} onRestart={handleRestart} />;
+  }
+
+  const currentQuestion = state.questionSequence[state.currentQuestionIndex];
+
+  return (
+    <div className="quiz-container">
+      <ProgressBar current={state.currentQuestionIndex + 1} total={15} />
+      <Question
+        key={currentQuestion.id}
+        question={currentQuestion}
+        onAnswer={handleAnswer}
+      />
+    </div>
+  );
+}
