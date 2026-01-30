@@ -117,6 +117,16 @@ export default function Results({ state, onRestart }) {
         </div>
       )}
 
+      {(desc.thinkers.length > 0 || desc.communities.length > 0) && (
+        <p className="results-disclaimer">
+          The selections for each archetype were made by Claude. These are, of
+          course, oversimplifications that don't fully represent those people's
+          and groups' actual values.
+          <br />
+          (This is an AI vibes quiz please don't be mad)
+        </p>
+      )}
+
       <div className="results-actions">
         <ShareButton results={results} />
         <button className="restart-button" onClick={onRestart}>

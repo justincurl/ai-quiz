@@ -1,12 +1,14 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { initializeQuiz, recordResponse, processQuestionComplete } from "../logic/quizState";
 import { generateTypeCode } from "../logic/scoring";
-import { logResponse, logResult } from "../firebase";
+import { logResponse, logResult } from "../supabase";
 import Question from "./Question";
 import ProgressBar from "./ProgressBar";
 import Results from "./Results";
+import IntroPage from "./IntroPage";
 
 export default function Quiz() {
+  const [started, setStarted] = useState(false);
   const [state, setState] = useState(initializeQuiz);
   const resultLogged = useRef(false);
 
@@ -41,6 +43,10 @@ export default function Quiz() {
     resultLogged.current = false;
     setState(initializeQuiz());
   }, []);
+
+  if (!started) {
+    return <IntroPage onStart={() => setStarted(true)} />;
+  }
 
   if (state.isComplete) {
     return <Results state={state} onRestart={handleRestart} />;

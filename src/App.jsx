@@ -1,5 +1,8 @@
 import Quiz from "./components/Quiz";
+import Dashboard from "./components/Dashboard";
 import "./styles/quiz.css";
+
+const isDashboard = window.location.pathname.replace(/\/+$/, "").endsWith("/dashboard");
 
 export default function App() {
   return (
@@ -9,7 +12,7 @@ export default function App() {
         <p className="subtitle">What do you believe about AI?</p>
       </header>
       <main>
-        <Quiz />
+        {isDashboard ? <Dashboard /> : <Quiz />}
       </main>
     </div>
   );
