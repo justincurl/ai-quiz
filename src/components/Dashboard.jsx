@@ -3,10 +3,10 @@ import { fetchResponses, fetchResults } from "../supabase";
 import { allQuestions } from "../data/questions";
 
 const AXES = [
-  { key: "timeline", labelA: "Fast", labelB: "Slow", letter: ["F", "S"] },
-  { key: "novelty", labelA: "Unprecedented", labelB: "Analogous", letter: ["U", "A"] },
-  { key: "outcome", labelA: "Good", labelB: "Bad", letter: ["G", "B"] },
-  { key: "control", labelA: "Open", labelB: "Inevitable", letter: ["O", "I"] },
+  { key: "timeline", labelA: "Slow", labelB: "Fast", letter: ["S", "F"] },
+  { key: "novelty", labelA: "Analogous", labelB: "Unprecedented", letter: ["A", "U"] },
+  { key: "outcome", labelA: "Bad", labelB: "Good", letter: ["B", "G"] },
+  { key: "control", labelA: "Inevitable", labelB: "Open", letter: ["I", "O"] },
 ];
 
 export default function Dashboard() {
