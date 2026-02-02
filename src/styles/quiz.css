@@ -217,10 +217,12 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-.option-button:hover {
-  background: var(--yellow);
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px var(--ink);
+@media (hover: hover) {
+  .option-button:hover {
+    background: var(--yellow);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px var(--ink);
+  }
 }
 
 .option-button:active {
@@ -231,6 +233,37 @@ body {
 .option-button.selected {
   background: var(--coral);
   color: #fff;
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--ink);
+}
+
+/* Back button */
+.back-button {
+  display: block;
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  border: 3px solid var(--border);
+  background: var(--card-bg);
+  color: var(--ink);
+  transition: all 0.12s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (hover: hover) {
+  .back-button:hover {
+    background: var(--teal);
+    color: #fff;
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px var(--ink);
+  }
+}
+
+.back-button:active {
   transform: translate(2px, 2px);
   box-shadow: 0px 0px 0px var(--ink);
 }
