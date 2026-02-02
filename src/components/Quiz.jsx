@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { initializeQuiz, recordResponse, processQuestionComplete } from "../logic/quizState";
+import { initializeQuiz, recordResponse, processQuestionComplete, undoLastResponse } from "../logic/quizState";
 import { generateTypeCode } from "../logic/scoring";
 import { logResponse, logResult } from "../supabase";
 import Question from "./Question";
@@ -31,6 +31,15 @@ export default function Quiz() {
       return next;
     });
   }, [isHuman]);
+
+  const handleBack = useCallback(() => {
+    setState((prev) => {
+      if (prev.currentQuestionIndex === 0) return prev;
+      const next = JSON.parse(JSON.stringify(prev));
+      undoLastResponse(next);
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
     if (state.isComplete && !resultLogged.current) {
@@ -73,6 +82,11 @@ export default function Quiz() {
         question={currentQuestion}
         onAnswer={handleAnswer}
       />
+      {state.currentQuestionIndex > 0 && (
+        <button className="back-button" onClick={handleBack}>
+          ← Back
+        </button>
+      )}
     </div>
   );
 }
