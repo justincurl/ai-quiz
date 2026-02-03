@@ -58,7 +58,8 @@ export default function Dashboard() {
   const unlabeledResults = results.filter((r) => r.is_human == null);
   const typeCounts = {};
   for (const r of results) {
-    typeCounts[r.type_code] = (typeCounts[r.type_code] || 0) + 1;
+    const code = r.type_code.toUpperCase();
+    typeCounts[code] = (typeCounts[code] || 0) + 1;
   }
   const sortedTypes = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
   const maxTypeCount = sortedTypes.length ? sortedTypes[0][1] : 1;
