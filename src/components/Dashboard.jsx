@@ -3,9 +3,9 @@ import { fetchResponses, fetchResults } from "../supabase";
 import { allQuestions } from "../data/questions";
 
 const AXES = [
-  { key: "timeline", labelA: "Slow", labelB: "Fast", letter: ["S", "F"] },
-  { key: "novelty", labelA: "Analogous", labelB: "Unprecedented", letter: ["A", "U"] },
   { key: "outcome", labelA: "Bad", labelB: "Good", letter: ["B", "G"] },
+  { key: "novelty", labelA: "Analogous", labelB: "Unprecedented", letter: ["A", "U"] },
+  { key: "timeline", labelA: "Slow", labelB: "Fast", letter: ["S", "F"] },
   { key: "control", labelA: "Inevitable", labelB: "Open", letter: ["I", "O"] },
 ];
 
