@@ -62,11 +62,11 @@ export default function Results({ state, onRestart }) {
 
       <div className="axis-scores">
         <AxisBar
-          label="Timeline"
-          score={scores.timeline}
-          leftLabel="Slow"
-          rightLabel="Fast"
-          axis="timeline"
+          label="Outcome"
+          score={scores.outcome}
+          leftLabel="Bad"
+          rightLabel="Good"
+          axis="outcome"
         />
         <AxisBar
           label="Novelty"
@@ -76,11 +76,11 @@ export default function Results({ state, onRestart }) {
           axis="novelty"
         />
         <AxisBar
-          label="Outcome"
-          score={scores.outcome}
-          leftLabel="Bad"
-          rightLabel="Good"
-          axis="outcome"
+          label="Timeline"
+          score={scores.timeline}
+          leftLabel="Slow"
+          rightLabel="Fast"
+          axis="timeline"
         />
         <AxisBar
           label="Control"
