@@ -31,9 +31,9 @@ export function generateTypeCode(axes) {
   };
 
   return [
-    letterForScore(axes.timeline.normalizedScore, "F", "S"),
-    letterForScore(axes.novelty.normalizedScore, "U", "A"),
     letterForScore(axes.outcome.normalizedScore, "G", "B"),
+    letterForScore(axes.novelty.normalizedScore, "U", "A"),
+    letterForScore(axes.timeline.normalizedScore, "F", "S"),
     letterForScore(axes.control.normalizedScore, "O", "I"),
   ].join("");
 }
