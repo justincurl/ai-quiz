@@ -41,6 +41,10 @@ export default function Dashboard() {
   }
 
   // --- Question stats ---
+  const axisOrder = ["outcome", "novelty", "timeline", "control"];
+  const sortedQuestions = [...allQuestions].sort(
+    (a, b) => axisOrder.indexOf(a.axis) - axisOrder.indexOf(b.axis)
+  );
   const questionMap = {};
   for (const q of allQuestions) {
     questionMap[q.id] = { ...q, scores: [] };
@@ -130,7 +134,7 @@ export default function Dashboard() {
       <section className="dash-section">
         <h2 className="dash-heading">Per-Question Stats</h2>
         <div className="dash-questions">
-          {allQuestions.map((q) => {
+          {sortedQuestions.map((q) => {
             const data = questionMap[q.id];
             if (!data.scores.length) return null;
             const avg = (data.scores.reduce((s, v) => s + v, 0) / data.scores.length).toFixed(2);
