@@ -8,7 +8,7 @@ Novelty: ${s.novelty > 50 ? "Unprecedented" : "Analogous"} (${Math.round(s.novel
 Outcome: ${s.outcome > 50 ? "Good" : "Bad"} (${Math.round(s.outcome)})
 Control: ${s.control > 50 ? "Open" : "Inevitable"} (${Math.round(s.control)})
 
-Take the FUGO quiz!`;
+Take the GUFO quiz!`;
   }
 
   async function handleCopy() {
