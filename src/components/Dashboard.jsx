@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchResponses, fetchResults } from "../supabase";
 import { allQuestions } from "../data/questions";
+import { typeCodeFromScores } from "../logic/scoring";
 
 const AXES = [
   { key: "outcome", labelA: "Bad", labelB: "Good", letter: ["B", "G"] },
@@ -58,7 +59,9 @@ export default function Dashboard() {
   const unlabeledResults = results.filter((r) => r.is_human == null);
   const typeCounts = {};
   for (const r of results) {
-    const code = r.type_code.toUpperCase();
+    const code = r.scores
+      ? typeCodeFromScores(r.scores).toUpperCase()
+      : r.type_code.toUpperCase();
     typeCounts[code] = (typeCounts[code] || 0) + 1;
   }
   const sortedTypes = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);

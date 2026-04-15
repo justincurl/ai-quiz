@@ -18,22 +18,30 @@ export function calculateConfidence(axis) {
   );
 }
 
-export function generateTypeCode(axes) {
-  // Score >= 60 → strong high pole (uppercase)
-  // Score <= 40 → strong low pole (uppercase)
-  // Score 41-59 → leaning/uncertain (lowercase of whichever side they're closer to)
-  const letterForScore = (score, highLetter, lowLetter) => {
-    if (score >= 60) return highLetter;
-    if (score <= 40) return lowLetter;
-    // In the uncertain band, lean toward whichever side the score is on
-    if (score >= 50) return highLetter.toLowerCase();
-    return lowLetter.toLowerCase();
-  };
+const letterForScore = (score, highLetter, lowLetter) => {
+  if (score >= 60) return highLetter;
+  if (score <= 40) return lowLetter;
+  if (score >= 50) return highLetter.toLowerCase();
+  return lowLetter.toLowerCase();
+};
 
+export function generateTypeCode(axes) {
   return [
     letterForScore(axes.outcome.normalizedScore, "G", "B"),
     letterForScore(axes.novelty.normalizedScore, "U", "A"),
     letterForScore(axes.timeline.normalizedScore, "F", "S"),
     letterForScore(axes.control.normalizedScore, "O", "I"),
+  ].join("");
+}
+
+// Reconstruct a GUFO-ordered type code from the stored scores object
+// {timeline: N, novelty: N, outcome: N, control: N}
+// This is order-independent, so it works for both old (FUGO) and new (GUFO) results.
+export function typeCodeFromScores(scores) {
+  return [
+    letterForScore(scores.outcome, "G", "B"),
+    letterForScore(scores.novelty, "U", "A"),
+    letterForScore(scores.timeline, "F", "S"),
+    letterForScore(scores.control, "O", "I"),
   ].join("");
 }
